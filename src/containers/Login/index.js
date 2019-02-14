@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { login } from '../../actions';
 
 export class Login extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: () => dispatch({ type: "LOGIN" })
+    login: (userName) => dispatch(login(userName))
   };
 };
 

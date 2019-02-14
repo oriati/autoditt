@@ -14,7 +14,6 @@ class App extends Component {
           <Header />
           <Route exact path="/" component={Login} />
           <Route exact path="/posts" component={Posts} />
-
           <Route path="/newPost" component={NewPost} />
           </div>
       </Router>

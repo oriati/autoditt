@@ -3,28 +3,36 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Post from '../../components/Post';
 import { GET_POST_LIST } from '../../constants';
+import styled from 'styled-components';
+
+const List = styled.div`
+display:flex;
+flex-direction: column;
+`
 
 export class PostList extends Component {
-  static propTypes = {
-    prop: PropTypes
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
   }
+
   componentDidMount() {
     this.props.getPostList();
   }
 
   render() {
     return (
-      <div>
+      <List>
         this is PostList
-      <Post></Post>
-
-      </div>
+        {this.props.postList.map((post) => (<Post key={post.id} post={post}/>))}
+      </List>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-
+  postList: state.postList
 })
 
 const mapDispatchToProps = (dispatch) => {

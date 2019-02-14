@@ -4,7 +4,7 @@ import { LOGIN_SUCCESS, LOGIN_FAIL, GET_POST_LIST_SUCCESS, GET_POST_LIST_FAIL } 
 // reducer with initial state
 const initialState = {
   fetching: false,
-  posts: [],
+  postList: [],
   userName: '',
   newPost: null,
 };
@@ -18,8 +18,11 @@ export function reducer(state = initialState, action) {
       console.log('login attempt FAIL');
       return state;
     case GET_POST_LIST_SUCCESS:
-      console.log('get posts SUCCESS');
-      return state;
+      console.log('get posts SUCCESS', action);
+      return {
+        ...state,
+        postList: action.payload
+      }
     case GET_POST_LIST_FAIL:
       console.log('get posts FAIL');
       return state;

@@ -1,36 +1,51 @@
 import { takeLatest, put } from "redux-saga/effects";
 import axios from "axios";
 import * as constants from './constants';
+import * as actions from './actions';
+import {posts as postsMock} from './mocks/postsMock';
 
-function* login() {
+function* login(userName) {
   console.log('login in saga');
   try {
-    const response = yield axios({
-      method: "get",
-      url: "https://dog.ceo/api/breeds/image/random"
-    });
-    const data = response.data.message;
-
-    yield put({ type: constants.LOGIN_SUCCESS, data }); 
+    yield localStorage.setItem('userName:', userName)
+    // const response = yield axios({
+    //   method: "get",
+    //   url: "https://dog.ceo/api/breeds/image/random"
+    // });
+    // const data = response.data.message;
+    // yield put(actions.loginSuccess(data)); 
+    yield put(actions.loginSuccess()); 
   } catch (error) {
-    yield put({ type: constants.LOGIN_FAIL, error });
+    yield put(actions.loginFail(error));
   }
 }
-function* getPosts() {
-  console.log('get posts in saga');
+function* getPostList() {
+  console.log('GET posts in saga');
+  try {
+    const data = yield new Promise((res) => {
+      res(postsMock)
+    })
+    yield put(actions.getPostListSuccess(data));
+  } catch (error) {
+    yield put(actions.getPostListFail(error));
+  }
+}
+function* createNewPost(postObj) {
+  console.log('CREATE posts in saga');
   try {
     const response = yield axios({
       method: "get",
       url: "https://dog.ceo/api/breeds/image/random"
     });
     const data = response.data.message;
-    yield put({ type: constants.GET_POST_LIST_SUCCESS, data });
+    yield put(actions.getPostListSuccess(data));
   } catch (error) {
-    yield put({ type: constants.GET_POST_LIST_FAIL, error });
+    yield put(actions.getPostListFail(error));
   }
 }
 
 export function* watcherSaga() {
-  yield takeLatest(constants.GET_POST_LIST, getPosts);
   yield takeLatest(constants.LOGIN, login);
+  yield takeLatest(constants.GET_POST_LIST, getPostList);
+  yield takeLatest(constants.CREATE_NEW_POST, createNewPost);
 }
