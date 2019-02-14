@@ -1,26 +1,36 @@
 import { takeLatest, put } from "redux-saga/effects";
 import axios from "axios";
+import * as constants from './constants';
 
-// watcher saga: watches for actions dispatched to the store, starts worker saga
-
-// worker saga: makes the api call when watcher saga sees the action
-function* getPosts() {
+function* login() {
+  console.log('login in saga');
   try {
     const response = yield axios({
       method: "get",
       url: "https://dog.ceo/api/breeds/image/random"
     });
-    const dog = response.data.message;
+    const data = response.data.message;
 
-    // dispatch a success action to the store with the new dog
-    yield put({ type: "API_CALL_SUCCESS", dog });
-  
+    yield put({ type: constants.LOGIN_SUCCESS, data }); 
   } catch (error) {
-    // dispatch a failure action to the store with the error
-    yield put({ type: "API_CALL_FAILURE", error });
+    yield put({ type: constants.LOGIN_FAIL, error });
+  }
+}
+function* getPosts() {
+  console.log('get posts in saga');
+  try {
+    const response = yield axios({
+      method: "get",
+      url: "https://dog.ceo/api/breeds/image/random"
+    });
+    const data = response.data.message;
+    yield put({ type: constants.GET_POST_LIST_SUCCESS, data });
+  } catch (error) {
+    yield put({ type: constants.GET_POST_LIST_FAIL, error });
   }
 }
 
 export function* watcherSaga() {
-  yield takeLatest("GET_POSTS", getPosts);
+  yield takeLatest(constants.GET_POST_LIST, getPosts);
+  yield takeLatest(constants.LOGIN, login);
 }

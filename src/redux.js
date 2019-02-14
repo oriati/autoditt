@@ -1,23 +1,35 @@
-// action types
-const API_CALL_REQUEST = "API_CALL_REQUEST";
-const API_CALL_SUCCESS = "API_CALL_SUCCESS";
-const API_CALL_FAILURE = "API_CALL_FAILURE";
+import { LOGIN_SUCCESS, LOGIN_FAIL, GET_POST_LIST_SUCCESS, GET_POST_LIST_FAIL } from './constants';
+
 
 // reducer with initial state
 const initialState = {
   fetching: false,
-  dog: null,
-  error: null
+  posts: [],
+  userName: '',
+  newPost: null,
 };
 
 export function reducer(state = initialState, action) {
   switch (action.type) {
-    case API_CALL_REQUEST:
-      return { ...state, fetching: true, error: null };
-    case API_CALL_SUCCESS:
-      return { ...state, fetching: false, dog: action.dog };
-    case API_CALL_FAILURE:
-      return { ...state, fetching: false, dog: null, error: action.error };
+    case LOGIN_SUCCESS:
+      console.log('login attempt SUCCESS');
+      return state;
+    case LOGIN_FAIL:
+      console.log('login attempt FAIL');
+      return state;
+    case GET_POST_LIST_SUCCESS:
+      console.log('get posts SUCCESS');
+      return state;
+    case GET_POST_LIST_FAIL:
+      console.log('get posts FAIL');
+      return state;
+
+    // case API_CALL_REQUEST:
+    //   return { ...state, fetching: true, error: null };
+    // case API_CALL_SUCCESS:
+    //   return { ...state, fetching: false, dog: action.dog };
+    // case API_CALL_FAILURE:
+    //   return { ...state, fetching: false, dog: null, error: action.error };
     default:
       return state;
   }

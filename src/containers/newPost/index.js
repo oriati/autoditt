@@ -20,8 +20,11 @@ const mapStateToProps = (state) => ({
   
 })
 
-const mapDispatchToProps = {
-  
-}
+const mapDispatchToProps = dispatch => {
+  return {
+    // onRequestDog: () => dispatch({ type: "API_CALL_REQUEST" })
+  };
+};
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewPost)
