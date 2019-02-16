@@ -1,18 +1,39 @@
 import * as constants from './constants';
 
-export function login() {
+export function login(payload) {
   return {
-    type: constants.LOGIN
+    type: constants.LOGIN,
+    payload
   }
 }
-export function loginSuccess() {
+
+export function loginSuccess(payload) {
   return {
     type: constants.LOGIN_SUCCESS,
+    payload
   }
 }
 export function loginFail() {
   return {
     type: constants.LOGIN_FAIL
+  }
+}
+export function logout() {
+  return {
+    type: constants.LOGOUT,
+    
+  }
+}
+export function logoutSuccess() {
+  return {
+    type: constants.LOGOUT_SUCCESS,
+    
+  }
+}
+export function logoutFail() {
+  return {
+    type: constants.LOGOUT_FAIL,
+    
   }
 }
 export function getPostList() {
@@ -31,3 +52,58 @@ export function getPostListFail() {
     type: constants.GET_POST_LIST_FAIL
   }
 }
+export function upvote(payload) {
+  return {
+    type: constants.UPVOTE,
+    payload
+  }
+}
+export function upvoteSuccess(payload) {
+  return {
+    type: constants.UPVOTE_SUCCESS,
+    payload
+  }
+}
+export function upvoteFail(error) {
+  return {
+    type: constants.UPVOTE_FAIL,
+    error
+  }
+}
+export function downvote(payload) {
+  return {
+    type: constants.DOWNVOTE,
+    payload
+  }
+}
+export function downvoteSuccess(payload) {
+  return {
+    type: constants.DOWNVOTE_SUCCESS,
+    payload
+  }
+}
+export function downvoteFail(error) {
+  return {
+    type: constants.DOWNVOTE_FAIL,
+    error
+  }
+}
+export function submitComment(payload) {
+  return {
+    type: constants.SUBMIT_COMMENT,
+    payload
+  }
+}
+export function submitCommentSuccess(payload) {
+  return {
+    type: constants.SUBMIT_COMMENT_SUCCESS,
+    payload
+  }
+}
+export function submitCommentFail(error) {
+  return {
+    type: constants.SUBMIT_COMMENT_FAIL,
+    error
+  }
+}
+
