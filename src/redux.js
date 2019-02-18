@@ -9,8 +9,8 @@ import {
   UPVOTE_FAIL,
   DOWNVOTE_SUCCESS,
   DOWNVOTE_FAIL,
-  SUBMIT_COMMENT_SUCCESS,
-  SUBMIT_COMMENT_FAIL,
+  SUBMIT_POST_SUCCESS,
+  SUBMIT_POST_FAIL,
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
 
@@ -28,7 +28,10 @@ export function reducer(state = initialState, action) {
 
     case LOGIN_SUCCESS:
       console.log('login attempt SUCCESS');
-      return { ...state, userName: action.payload.userName };
+      return {
+        ...state,
+        userName: action.payload.userName
+      };
 
     case LOGIN_FAIL:
       console.log('login attempt FAIL');
@@ -100,33 +103,35 @@ export function reducer(state = initialState, action) {
       console.log('DOWNVOTE FAIL IN REDUCER');
       return state;
 
-    case SUBMIT_COMMENT_SUCCESS: {
-      const { postId, txt } = action.payload;
-      const newComment = {
+    case SUBMIT_POST_SUCCESS: {
+      const { postId, text, title, imageUrl } = action.payload;
+      const newPost = {
         id: uniqId(),
-        text: txt,
-        // userName: userName,
+        text,
+        title,
+        imageUrl,
+        userName: state.userName,
         dateSubmitted: new Date().toDateString(),
         score: 1,
         parentId: postId,
-        userScore: 0
+        userScore: 1
       }
       return {
         ...state,
-        postList: [...state.postList, newComment]
+        postList: [...state.postList, newPost]
 
       };
     }
 
-    case SUBMIT_COMMENT_FAIL:
-      console.log('SUBMIT COMMENT FAIL IN REDUCER');
+    case SUBMIT_POST_FAIL:
+      console.log('SUBMIT POST FAIL IN REDUCER');
       return state;
 
     default:
       return state;
   }
 }
-//  i did ++ to id==100
+
 // const findPath = (pathStr, postList) => { 
 //   // this function gets an array of ids and return array of indexes
 //   const pathArray = pathStr.split('_');

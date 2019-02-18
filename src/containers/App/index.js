@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { connect } from 'react-redux'
+import styled from 'styled-components';
 import Header from '../../components/Header';
 import Posts from '../../containers/PostList';
 import NewPost from '../../containers/NewPost';
 import Login from '../../containers/Login';
-import { logout } from '../../actions';
-import createBrowserHistory from 'history/createBrowserHistory'
+import { login, logout, getPostList } from '../../actions';
+// import createBrowserHistory from 'history/createBrowserHistory'
 
-const history = createBrowserHistory()
+const RouterContainer = styled.div`
+padding: 0 1em;
+`
 
 const fakeAuth = {
-  isAuthenticated: () => !!localStorage.getItem('userName'),
-  // isAuthenticated: true,
+  isAuthenticated: () => !!localStorage.getItem('userName')
 }
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -32,20 +34,24 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
 class App extends Component {
 
-  onLogout = () => {
-    this.props.logout();
+  componentDidMount() {
+    const userName = localStorage.getItem('userName')
+    this.props.attemptLogin(userName);
+    this.props.getPostList();
   }
 
   render() {
     return (
       <Router>
         <div className="App">
-          <Header isLoggedIn={() => fakeAuth.isAuthenticated()} logout={this.onLogout} />
-          <Route exact path="/login" component={Login} />
-          <PrivateRoute path='/posts' component={Posts} />
-          <PrivateRoute path='/newPost' component={NewPost} />
-          {/* <Route exact path="/posts" component={Posts} />
+          <Header isLoggedIn={() => fakeAuth.isAuthenticated()} logout={this.props.logout} />
+          <RouterContainer>
+            <Route exact path="/login" component={Login} />
+            <PrivateRoute path='/posts' component={Posts} />
+            <PrivateRoute path='/newPost' component={NewPost} />
+            {/* <Route exact path="/posts" component={Posts} />
           <Route path="/newPost" component={NewPost} /> */}
+          </RouterContainer>
         </div>
       </Router>
     );
@@ -58,6 +64,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
+    attemptLogin: (userName) => dispatch(login({ userName })),
+    getPostList: () => dispatch(getPostList()),
     logout: () => dispatch(logout())
   };
 };

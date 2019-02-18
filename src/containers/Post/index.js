@@ -8,14 +8,17 @@ import React, { Component } from 'react'
 import styled from 'styled-components';
 import { connect } from 'react-redux'
 import Rating from '../../components/Rating';
+import { upvote, downvote, submitPost } from '../../actions';
+
+import { Form, Modal, Button, TextArea, Image } from 'semantic-ui-react';
 
 const Container = styled.div`
-background:#eee;
+  background:#f7f7f7;
   margin: 0.5em 0;
   padding: 0.5em;
   display:flex;
   align-items:center;
-  margin-left: ${(props) => (props.level * 2) + 'em'};
+  margin-left: ${(props) => ((props.level - 1) * 2) + 'em'};
   img{
     height:100px;
     margin: 0 0.5em;
@@ -27,6 +30,7 @@ const Desc = styled.div`
   &>.comments{
     cursor:pointer;
   }
+  margin-left:1em;
 `;
 
 class Post extends Component {
@@ -35,48 +39,90 @@ class Post extends Component {
     this.state = {
       showComments: props.expand,
       level: (props.level || 0) + 1,
-      path: props.path ? `${props.path}_${props.post.id}` : props.post.id
+      isComment: false,
+      comment: '',
     }
   }
 
-  upvote = () => {
-    // this.props.upvote(this.state.path, this.props.post.id)
-    this.props.upvote(this.props.post.id)
+  onUpvote = () => {
+    const { post } = this.props
+    if (post.userScore !== 1) {
+      this.props.upvote(post.id)
+    }
   }
 
-  downvote = () => {
-    // this.props.downvote(this.state.path, this.props.post.id)
-    this.props.downvote(this.props.post.id)
+  onDownvote = () => {
+    const { post } = this.props
+    if (post.userScore !== -1) {
+      this.props.downvote(post.id)
+    }
   }
+
+  discardComment = () => {
+    this.setState({ isComment: false, comment: '' })
+  }
+
+  onSubmitComment = () => {
+    const { post, submitComment } = this.props
+    submitComment(this.state.comment, post.id)
+    this.discardComment();
+  }
+
+  handleCommentChange = (e) => {
+    this.setState({ comment: e.target.value })
+  }
+
 
   render() {
-    const { post, downvote, upvote, postList } = this.props;
-    const { showComments, level, path } = this.state;
-    const postId = post.id;
-    const comments = postList.filter(post => post.parentId === postId);
+    const { post, downvote, upvote, children } = this.props;
+    const { showComments, level, isComment } = this.state;
 
     return (
       <div>
+        <Modal open={isComment} onClose={() => this.setState({ isComment: false })}>
+          <Modal.Header>Say something nice - score useless points</Modal.Header>
+          <Modal.Content>
+            <Form>
+              <TextArea
+                autoHeight
+                placeholder={`reply to ${post.userName}`}
+                style={{ minHeight: 100 }}
+                onChange={(e) => this.handleCommentChange(e)}
+                value={this.state.comment}
+              />
+            </Form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative onClick={this.discardComment}>
+              Discard
+            </Button>
+            <Button
+              positive
+              icon='comment'
+              // labelPosition='right'
+              content="Submit"
+              onClick={this.onSubmitComment}
+            />
+          </Modal.Actions>
+        </Modal>
         <Container level={level}>
-          <Rating score={post.score} onUp={this.upvote} onDown={this.downvote}></Rating>
-          <img src={post.imageUrl}></img>
+          <Rating score={post.score} onUp={this.onUpvote} onDown={this.onDownvote} userScore={post.userScore} />
+          {post.imageUrl && <Image src={post.imageUrl} size="tiny"></Image>}
           <Desc>
             <a href='#'>{post.title || post.text}</a>
             <span>Submitted on{new Date(post.dateSubmitted).toDateString()} by {post.userName}</span>
-            <span className='comments' onClick={() => this.setState({ showComments: !showComments })}>{comments.length} comments</span>
+            <span className='comments' onClick={() => this.setState({ showComments: !showComments })}>{children.length} comments</span>
+            <span style={{ cursor: 'pointer' }} onClick={() => this.setState({ isComment: !this.state.isComment })} >reply</span>
           </Desc>
-          &nbsp;&nbsp;&nbsp;{this.state.path}
-
-
+          {/* &nbsp;{this.state.path} */}
         </Container>
-        {showComments && (postList.filter((post => post.parentId === postId)) || []).map(post => (
-          <Post
-            postList={postList}
-            key={post.id}
-            post={post}
+        {showComments && (children.sort((a,b) => b.score - a.score) || []).map(childPost => (
+          <PostWrapper
+            key={childPost.id}
+            post={childPost}
             expand
             level={level}
-            path={path}
+            // path={path}
             upvote={upvote}
             downvote={downvote}
           />
@@ -85,17 +131,21 @@ class Post extends Component {
     )
   }
 }
-const mapStateToProps = (state) => ({
-  postList: state.postList
-})
+const mapStateToProps = (state, ownProps) => {
+  return {
+    children: state.postList.filter((post) => post.parentId === ownProps.post.id),
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
+
   return {
-    // getPostList: () => dispatch(getPostList()),
-    // upvote: (pathStr, id) =>dispatch(upvote({pathStr, id})),
-    // downvote: (pathStr, id) =>dispatch(downvote({pathStr, id}))
+    upvote: (postId) => dispatch(upvote({ postId })),
+    downvote: (postId) => dispatch(downvote({ postId })),
+    submitComment: (text, postId) => dispatch(submitPost({ text, postId }))
   };
 };
 
+const PostWrapper = connect(mapStateToProps, mapDispatchToProps)(Post)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+export default PostWrapper;

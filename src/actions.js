@@ -88,21 +88,21 @@ export function downvoteFail(error) {
     error
   }
 }
-export function submitComment(payload) {
+export function submitPost(payload) {
   return {
-    type: constants.SUBMIT_COMMENT,
+    type: constants.SUBMIT_POST,
     payload
   }
 }
-export function submitCommentSuccess(payload) {
+export function submitPostSuccess(payload) {
   return {
-    type: constants.SUBMIT_COMMENT_SUCCESS,
+    type: constants.SUBMIT_POST_SUCCESS,
     payload
   }
 }
-export function submitCommentFail(error) {
+export function submitPostFail(error) {
   return {
-    type: constants.SUBMIT_COMMENT_FAIL,
+    type: constants.SUBMIT_POST_FAIL,
     error
   }
 }

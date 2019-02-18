@@ -23,6 +23,12 @@ export class Login extends Component {
     this.setState({ redirectToRefferer: true })
   }
 
+  handleKeyPress = (event) => {
+    if (event.key == 'Enter') {
+      this.onEnterSite();
+    }
+  }
+
   render() {
     const { redirectToRefferer } = this.state;
     const { from } = this.props.location.state || { from: { pathname: '/posts' } }
@@ -32,8 +38,8 @@ export class Login extends Component {
       <Container textAlign='center'>
         <h1>Autoditt</h1>
         <h3>Please log in</h3>
-        <Input onChange={this.onNameChange} type="text" placeholder="Enter your user name"
-          action={<Button positive disabled={!this.state.userName} onClick={this.onEnterSite}>Enter site</Button>}
+        <Input onChange={this.onNameChange} type="text" placeholder="Enter your user name" onKeyPress={this.handleKeyPress}
+          action={<Button positive disabled={!this.state.userName} onClick={this.onEnterSite} >Enter site</Button>}
         />
       </Container>
     )

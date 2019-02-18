@@ -1,27 +1,37 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 
 const Container = styled.div`
-height: 8em;
+height: 5em;
 display:flex;
 justify-content:space-around;
 align-items:center;
+background-color: whitesmoke;
+font-size: 2em;
+margin-bottom: 1em;
 `;
 
-
-export default class Header extends Component {
-
-  render() {
-    return (
-      <Container>
-        <Link to='/newPost'>new Post</Link>
-        <Link to='/posts'>Home</Link>
-        {this.props.isLoggedIn()
-          ? <a style={{ cursor: 'pointer' }} onClick={this.props.logout}>Log out</a>
-          : <Link to='/login'>Login</Link>
-        }
-      </Container>
-    )
+const CustomLink = styled(Link)`
+  &.disabled {
+    color: grey;
+    position: relative;
+    cursor: not-allowed;
   }
+`;
+
+const Header = (props) => {
+  const isUserLoggedIn = props.isLoggedIn()
+  return (
+    <Container>
+      <CustomLink className={!isUserLoggedIn && 'disabled'} to='/newPost' >New Post</CustomLink>
+      <CustomLink className={!isUserLoggedIn && 'disabled'} to='/posts'>Home</CustomLink>
+      {isUserLoggedIn
+        ? <CustomLink to='/login' onClick={props.logout}>Log out</CustomLink>
+        : <CustomLink to='/login'>Login</CustomLink>
+      }
+    </Container>
+  )
 }
+
+export default Header;

@@ -23,9 +23,9 @@
  export const UPVOTE_SUCCESS = 'app/UPVOTE_SUCCESS';
  export const UPVOTE_FAIL = 'app/UPVOTE_FAIL';
  
- export const SUBMIT_COMMENT = 'app/SUBMIT_COMMENT';
- export const SUBMIT_COMMENT_SUCCESS = 'app/SUBMIT_COMMENT_SUCCESS';
- export const SUBMIT_COMMENT_FAIL = 'app/SUBMIT_COMMENT_FAIL';
+ export const SUBMIT_POST = 'app/SUBMIT_POST';
+ export const SUBMIT_POST_SUCCESS = 'app/SUBMIT_POST_SUCCESS';
+ export const SUBMIT_POST_FAIL = 'app/SUBMIT_POST_FAIL';
 
 
 

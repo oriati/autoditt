@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 
 const Column = styled.div`
@@ -13,32 +13,26 @@ cursor:pointer;
 
 const Score = styled.span`
 color: ${(props) => {
-    if (props.score == 1) return 'lightgreen'
-    if (props.score == -1) return 'lightcoral'
-    if (props.score == 1) return 'black'
-    }
+    if (props.score === 1) return 'lightgreen'
+    if (props.score === -1) return 'lightcoral'
+    if (props.score === 1) return 'black'
+  }
   }
 `;
 
-export default class Rating extends Component {
-  constructor(props) {
-    super()
-    this.state = {
+const Rating = (props) => {
 
-    }
-  }
-
-  render() {
-    const { score, onUp, onDown, userScore } = this.props
-    return (
-      <Column>
-        <Vote className="fa fa-thumbs-up" up onClick={onUp}></Vote>
-        <Score score={userScore}>
-          {score}
-        </Score>
-        <Vote className="fa fa-thumbs-down" down onClick={onDown}></Vote>
-      </Column>
-    )
-  }
-
+  const { score, onUp, onDown, userScore } = props
+  return (
+    <Column>
+      <Vote className="fa fa-thumbs-up" up onClick={onUp}></Vote>
+      <Score score={userScore}>
+        {score}
+      </Score>
+      <Vote className="fa fa-thumbs-down" down onClick={onDown}></Vote>
+    </Column>
+  )
 }
+
+export default Rating
+

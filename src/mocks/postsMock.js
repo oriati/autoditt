@@ -5,8 +5,17 @@ export const posts = [
     userName: 'oridev',
     dateSubmitted: 1540000198000,
     imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/330px-Cat03.jpg',
-    score: 5,
+    score: 23,
     parentId: null,
+    userScore: 0
+  },
+  {
+    id: 11,
+    text: 'i hate this cat',
+    userName: 'JackPeralta',
+    dateSubmitted: 1550172198000,
+    score: -5,
+    parentId: 1,
     userScore: 0
   },
   {
@@ -27,15 +36,7 @@ export const posts = [
     parentId: 10,
     userScore: 0
   },
-  {
-    id: 11,
-    text: 'i hate this cat',
-    userName: 'JackPeralta',
-    dateSubmitted: 1550172198000,
-    score: -5,
-    parentId: 1,
-    userScore: 0
-  },
+
   {
     id: 2,
     title: 'im on a boat',
