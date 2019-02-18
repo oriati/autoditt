@@ -77,6 +77,7 @@ class PostList extends Component {
         {sortedRoots.map((post) => (
           <div key={post.id} ref={(postEl) => this.setRef(postEl, post.id)}>
             <Post
+              rootId={post.id}
               post={post}
             />
           </div>

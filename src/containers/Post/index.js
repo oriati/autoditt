@@ -87,7 +87,7 @@ class Post extends Component {
 
 
   render() {
-    const { post, downvote, upvote, children } = this.props;
+    const { post, downvote, upvote, children, rootId } = this.props;
     const { showComments, level, isComment } = this.state;
 
     return (
@@ -122,7 +122,7 @@ class Post extends Component {
           <Rating score={post.score} onUp={this.onUpvote} onDown={this.onDownvote} userScore={post.userScore} />
           {post.imageUrl && <Image src={post.imageUrl} size="tiny" onError={this.addDefaultSrc} ></Image>}
           <Desc>
-            <Link to={`/posts?item=${post.id}`} >{post.title || post.text}</Link>
+            <Link to={`/posts?item=${rootId}`} >{post.title || post.text}</Link>
             <span>Submitted on{new Date(post.dateSubmitted).toDateString()} by {post.userName}</span>
             <span className='comments' onClick={() => this.setState({ showComments: !showComments })}>{children.length} comments</span>
             <span style={{ cursor: 'pointer' }} onClick={() => this.setState({ isComment: !this.state.isComment })} >reply</span>
@@ -131,6 +131,7 @@ class Post extends Component {
         </Container>
         {showComments && (children.sort((a, b) => b.score - a.score) || []).map(childPost => (
           <PostWrapper
+            rootId={rootId}
             key={childPost.id}
             post={childPost}
             expand
