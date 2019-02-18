@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 // import Post from '../../components/Post';
 import Post from '../../containers/Post';
-import { isEqual } from 'lodash';
 import styled from 'styled-components';
 import { Header, Dropdown, Segment } from 'semantic-ui-react';
 import queryString from 'query-string';
+
 
 const List = styled.div`
   display:flex;
@@ -20,6 +21,11 @@ const CustomSegment = styled(Segment)`
 `;
 
 class PostList extends Component {
+  static propTypes = {
+    location: PropTypes.object,
+    roots: PropTypes.array,
+  }
+
   constructor() {
     super()
     this.state = {

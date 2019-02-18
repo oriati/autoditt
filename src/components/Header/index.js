@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types'
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -33,5 +34,11 @@ const Header = (props) => {
     </Container>
   )
 }
+
+Header.propTypes = {
+  isLoggedIn: PropTypes.func,
+  logout: PropTypes.func,
+}
+
 
 export default Header;

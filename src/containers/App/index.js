@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import Posts from '../../containers/PostList';
@@ -33,7 +34,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 }
 
 class App extends Component {
-
+  static propTypes = {
+    attemptLogin: PropTypes.func,
+    getPostList: PropTypes.func,
+    logout: PropTypes.func,
+  }
   componentDidMount() {
     const userName = localStorage.getItem('userName')
     this.props.attemptLogin(userName);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { Redirect} from 'react-router-dom';
 import { Form, Popup } from 'semantic-ui-react';
@@ -9,9 +9,9 @@ import { urlRegExp } from '../../utils';
 
 
 export class NewPost extends Component {
-  // static propTypes = {
-  //   prop: PropTypes
-  // }
+  static propTypes = {
+    submitNewPost: PropTypes.func
+  }
   constructor() {
     super()
     this.state = {

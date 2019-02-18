@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
+import PropTypes from 'prop-types'
 import { Form, Modal, Button, TextArea, Image } from 'semantic-ui-react';
 import Rating from '../../components/Rating';
 import { upvote, downvote, submitPost } from '../../actions';
@@ -36,6 +37,17 @@ const Desc = styled.div`
 `;
 
 class Post extends Component {
+  static propTypes = {
+    expand: PropTypes.bool,
+    level: PropTypes.number,
+    post: PropTypes.object,
+    upvote: PropTypes.func,
+    downvote: PropTypes.func,
+    submitComment: PropTypes.func,
+    children: PropTypes.array,
+    rootId: PropTypes.string,
+  }
+
   constructor(props) {
     super()
     this.state = {

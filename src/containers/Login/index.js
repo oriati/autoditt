@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { login } from '../../actions';
 import { Container, Input, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 
 export class Login extends Component {
+  static propTypes = {
+    login: PropTypes.func,
+    location: PropTypes.object,
+    location: PropTypes.object,
+  }
   constructor(props) {
     super(props)
     this.state = {
