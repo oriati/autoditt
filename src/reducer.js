@@ -27,37 +27,37 @@ export function reducer(state = initialState, action) {
   switch (action.type) {
 
     case LOGIN_SUCCESS:
-      console.log('login attempt SUCCESS');
+      // console.log('login attempt SUCCESS');
       return {
         ...state,
         userName: action.payload.userName
       };
 
     case LOGIN_FAIL:
-      console.log('login attempt FAIL');
+      // console.log('login attempt FAIL');
       return state;
 
     case LOGOUT_SUCCESS:
-      console.log('LOGOUT attempt SUCCESS');
+      // console.log('LOGOUT attempt SUCCESS');
       return { ...state, userName: '' };
 
     case LOGOUT_FAIL:
-      console.log('logout attempt FAILED(????)');
+      // console.log('logout attempt FAILED(????)');
       return state;
 
     case GET_POST_LIST_SUCCESS:
-      console.log('get posts SUCCESS', action);
+      // console.log('get posts SUCCESS', action);
       return {
         ...state,
         postList: action.payload
       }
 
     case GET_POST_LIST_FAIL:
-      console.log('get posts FAIL');
+      // console.log('get posts FAIL');
       return state;
 
     case UPVOTE_SUCCESS: {
-      console.log('UPVOTE SUCCESS IN REDUCER', action);
+      // console.log('UPVOTE SUCCESS IN REDUCER', action);
       const { postId } = action.payload;
       const idx = state.postList.findIndex((post) => post.id === postId);
       const updatedPost = {
@@ -77,7 +77,7 @@ export function reducer(state = initialState, action) {
     }
 
     case UPVOTE_FAIL:
-      console.log('UPVOTE FAIL IN REDUCER');
+      // console.log('UPVOTE FAIL IN REDUCER');
       return state;
 
     case DOWNVOTE_SUCCESS: {
@@ -100,7 +100,7 @@ export function reducer(state = initialState, action) {
     }
 
     case DOWNVOTE_FAIL:
-      console.log('DOWNVOTE FAIL IN REDUCER');
+      // console.log('DOWNVOTE FAIL IN REDUCER');
       return state;
 
     case SUBMIT_POST_SUCCESS: {
@@ -124,7 +124,7 @@ export function reducer(state = initialState, action) {
     }
 
     case SUBMIT_POST_FAIL:
-      console.log('SUBMIT POST FAIL IN REDUCER');
+      // console.log('SUBMIT POST FAIL IN REDUCER');
       return state;
 
     default:

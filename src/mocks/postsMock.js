@@ -5,7 +5,7 @@ export const posts = [
     userName: 'oridev',
     dateSubmitted: 1540000198000,
     imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/330px-Cat03.jpg',
-    score: 23,
+    score: 23145,
     parentId: null,
     userScore: 0
   },

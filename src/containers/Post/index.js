@@ -6,11 +6,13 @@
 
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { connect } from 'react-redux'
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { isEqual } from 'lodash';
+import { Form, Modal, Button, TextArea, Image } from 'semantic-ui-react';
 import Rating from '../../components/Rating';
 import { upvote, downvote, submitPost } from '../../actions';
 
-import { Form, Modal, Button, TextArea, Image } from 'semantic-ui-react';
 
 const Container = styled.div`
   background:#f7f7f7;
@@ -44,6 +46,13 @@ class Post extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (isEqual(nextState, this.state) && isEqual(nextProps, this.props)) {
+      return false
+    };
+    return true;
+  }
+
   onUpvote = () => {
     const { post } = this.props
     if (post.userScore !== 1) {
@@ -70,6 +79,10 @@ class Post extends Component {
 
   handleCommentChange = (e) => {
     this.setState({ comment: e.target.value })
+  }
+
+  addDefaultSrc(e) {
+    e.target.src = 'https://images.youracclaim.com/images/5ab5a08b-5051-435f-abda-dafc6a73f1a4/org_autodesk%2Bcopy.jpg'
   }
 
 
@@ -107,16 +120,16 @@ class Post extends Component {
         </Modal>
         <Container level={level}>
           <Rating score={post.score} onUp={this.onUpvote} onDown={this.onDownvote} userScore={post.userScore} />
-          {post.imageUrl && <Image src={post.imageUrl} size="tiny"></Image>}
+          {post.imageUrl && <Image src={post.imageUrl} size="tiny" onError={this.addDefaultSrc} ></Image>}
           <Desc>
-            <a href='#'>{post.title || post.text}</a>
+            <Link to={`/posts?item=${post.id}`} >{post.title || post.text}</Link>
             <span>Submitted on{new Date(post.dateSubmitted).toDateString()} by {post.userName}</span>
             <span className='comments' onClick={() => this.setState({ showComments: !showComments })}>{children.length} comments</span>
             <span style={{ cursor: 'pointer' }} onClick={() => this.setState({ isComment: !this.state.isComment })} >reply</span>
           </Desc>
           {/* &nbsp;{this.state.path} */}
         </Container>
-        {showComments && (children.sort((a,b) => b.score - a.score) || []).map(childPost => (
+        {showComments && (children.sort((a, b) => b.score - a.score) || []).map(childPost => (
           <PostWrapper
             key={childPost.id}
             post={childPost}

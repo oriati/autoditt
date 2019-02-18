@@ -1,10 +1,9 @@
 import { takeLatest, put } from "redux-saga/effects";
-import axios from "axios";
+// import axios from "axios";
 import {
   LOGIN,
   LOGOUT,
   GET_POST_LIST,
-  CREATE_NEW_POST,
   UPVOTE,
   DOWNVOTE,
   SUBMIT_POST
@@ -24,7 +23,7 @@ function* login(action) {
   }
 }
 function* logout() {
-  console.log('LOGOUT in SAGA');
+  // console.log('LOGOUT in SAGA');
   try {
     yield localStorage.removeItem('userName')
     yield put(actions.logoutSuccess());
@@ -34,7 +33,7 @@ function* logout() {
 }
 
 function* getPostList() {
-  console.log('GET posts in saga');
+  // console.log('GET posts in saga');
   try {
     const data = yield new Promise((res) => {
       res(postsMock)
@@ -46,7 +45,7 @@ function* getPostList() {
 }
 
 function* upvote(action) {
-  console.log('UPVOTE in saga', action);
+  // console.log('UPVOTE in saga', action);
   try {
     const data = yield new Promise((res) => {
       res(action.payload)
@@ -58,7 +57,7 @@ function* upvote(action) {
 }
 
 function* downvote(action) {
-  console.log('DOWNVOTE in saga', action);
+  // console.log('DOWNVOTE in saga', action);
   try {
     const data = yield new Promise((res) => {
       res(action.payload)
@@ -70,7 +69,7 @@ function* downvote(action) {
 }
 
 function* submitPost(action) {
-  console.log('SUBMIT_POST in saga', action);
+  // console.log('SUBMIT_POST in saga', action);
   try {
     const data = yield new Promise((res) => {
       res(action.payload)

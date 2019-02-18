@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 // import Post from '../../components/Post';
 import Post from '../../containers/Post';
+import { isEqual } from 'lodash';
 import styled from 'styled-components';
-// import { upvote, downvote, getPostList, submitComment } from '../../actions';
 import { Header, Dropdown, Segment } from 'semantic-ui-react';
+import queryString from 'query-string';
 
 const List = styled.div`
   display:flex;
@@ -20,26 +20,38 @@ const CustomSegment = styled(Segment)`
 `;
 
 class PostList extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       sortBy: 'score',
     }
+    this.postsRefs = {}
   }
 
   componentDidMount() {
-    // this.props.getPostList();
+    const values = queryString.parse(this.props.location.search);
+    if (values.item) {
+      const interval = setInterval(() => {
+        if (this.postsRefs[values.item]) {
+          window.scrollTo(0, this.postsRefs[values.item].offsetTop);
+          clearInterval(interval)
+        }
+      }, 100)
+    }
   }
 
   sortBy = () => {
     switch (this.state.sortBy) {
-
       case 'score':
         return (a, b) => b.score - a.score;
       case 'date':
         return (a, b) => b.dateSubmitted - a.dateSubmitted
       default: return (a, b) => b.score - a.score;
     }
+  }
+
+  setRef = (postRef, postId) => {
+    this.postsRefs[postId] = postRef
   }
 
   render() {
@@ -51,22 +63,23 @@ class PostList extends Component {
         <CustomSegment basic>
           <Header as='h2' floated='left'>Welcome to Autoditt</Header>
           <span>
-          sort by: &nbsp;  
+            sort by: &nbsp;
           <Dropdown
-            direction='left'
-            defaultValue={'rating'}
-            onChange={(e, { value }) => this.setState({ sortBy: value })}
-            options={[
-              { key: 1, text: 'Rating', value: 'rating' },
-              { key: 2, text: 'Date submitted', value: 'date' }
-            ]} />
+              direction='left'
+              defaultValue={'rating'}
+              onChange={(e, { value }) => this.setState({ sortBy: value })}
+              options={[
+                { key: 1, text: 'Rating', value: 'rating' },
+                { key: 2, text: 'Date submitted', value: 'date' }
+              ]} />
           </span>
         </CustomSegment>
         {sortedRoots.map((post) => (
-          <Post
-            key={post.id}
-            post={post}
-          />
+          <div key={post.id} ref={(postEl) => this.setRef(postEl, post.id)}>
+            <Post
+              post={post}
+            />
+          </div>
         ))}
       </List>
     )

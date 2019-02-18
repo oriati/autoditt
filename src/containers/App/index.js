@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import { connect } from 'react-redux'
 import styled from 'styled-components';
 import Header from '../../components/Header';
@@ -18,7 +18,7 @@ const fakeAuth = {
 }
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  console.log(fakeAuth.isAuthenticated());
+  // console.log(fakeAuth.isAuthenticated());
   return (
     <Route {...rest} render={(props) => (
       fakeAuth.isAuthenticated() === true
@@ -46,11 +46,12 @@ class App extends Component {
         <div className="App">
           <Header isLoggedIn={() => fakeAuth.isAuthenticated()} logout={this.props.logout} />
           <RouterContainer>
-            <Route exact path="/login" component={Login} />
-            <PrivateRoute path='/posts' component={Posts} />
-            <PrivateRoute path='/newPost' component={NewPost} />
-            {/* <Route exact path="/posts" component={Posts} />
-          <Route path="/newPost" component={NewPost} /> */}
+            <Switch>
+              <Route path="/login" component={Login} />
+              <PrivateRoute path='/posts' component={Posts} />
+              <PrivateRoute path='/newPost' component={NewPost} />
+              <Route path="*" render={() => <Redirect to='/posts' />} />
+            </Switch>
           </RouterContainer>
         </div>
       </Router>
