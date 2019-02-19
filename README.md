@@ -1,10 +1,14 @@
 This is a reddit-clone that works with mock on client (no server at all - everything restores on refresh)
 
 To run this project:
-clone the repo `git clone https://github.com/oriati/autoditt.git`
-go to the directory `cd autoditt`
-install the dependencies `npm install` or `yarn install`
-finally to run `npm start` or `yarn start`
+
+clone the repo `git clone https://github.com/oriati/autoditt.git` <br>
+
+go to the directory `cd autoditt`<br>
+
+install the dependencies `npm install` or `yarn install`<br>
+
+finally to run `npm start` or `yarn start`<br>
 
 -------
 
