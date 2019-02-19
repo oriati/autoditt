@@ -33,12 +33,11 @@ const Header = (props) => {
       }
     </Container>
   )
-}
+};
 
 Header.propTypes = {
   isLoggedIn: PropTypes.func,
   logout: PropTypes.func,
-}
-
+};
 
 export default Header;
